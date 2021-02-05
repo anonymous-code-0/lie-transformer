@@ -1,11 +1,6 @@
 # LieTransformer
 
-This repository contains the implementation of the LieTransformer used for experiments in the paper
-
-[LieTransformer: Equivariant self-attention for Lie Groups]()
-
-by [XXX XXX](), [XXX XXX](), [XXX XXX](), [XXX XXX](), [XXX XXX]() and [XXX XXX]()
-
+This repository contains the implementation of the LieTransformer used for experiments in the paper LieTransformer: Equivariant self-attention for Lie Groups
 
 Pattern recognition | Molecular property prediction | Particle Dynamics
 :-------------------------:|:-------------------------:|:-------------------------:
@@ -18,7 +13,7 @@ LieTransformer is a equivariant Transformer-like model, built out of equivariant
 
 ## Architecture
 
-The overall architecture of the LieTransformer is similar to the architecture of the original Transformer, interleaving series of attention layers and pointwise MLPs in residual blocks. The architecture of the LieSelfAttention blocks differs however, and can be seen below. For more details, please see [the paper](). 
+The overall architecture of the LieTransformer is similar to the architecture of the original Transformer, interleaving series of attention layers and pointwise MLPs in residual blocks. The architecture of the LieSelfAttention blocks differs however, and can be seen below. For more details, please see the paper. 
 
 ![model diagram](.github/images/model_diagram.png)
 
@@ -78,12 +73,27 @@ python scripts/train_molecule.py \
     --task homo
 ```
 
+Configurable scripts for running the experiments in the paper exist in the scripts folder, `scripts/train_molecule_SE3transformer.sh`, `scripts/train_molecule_SE3lieconv.sh`.
+
 #### Results
 ![QM9 results](.github/images/QM9_results.png)
 
 ### Hamiltonian dynamics
+In this experiment we aim to predict the trajectory of a number of particles connected together by a series of springs. This is done by learning the Hamiltonian of the system from observed trajectories.
+
+The following command generates a dataset of trajectories and trains LieTransformer on it
 ```
-python scripts/dynamics/train_dynamics.py --activation_function swish --architecture model_1 --attention_fn dot_product --batch_size 100 --block_norm layer_pre --dim_hidden 160 --kernel_dim 16 --kernel_type mlp --kill_if_poor False --learning_rate 0.001 --lr_schedule cosine_annealing --model_seed 0 --n_systems 150000 --n_train 3000 --num_heads 8 --num_layers 5 --num_particles 6 --run_name test_run --save_check_points 500 --train_epochs 200
+python scripts/dynamics/train_dynamics.py \
+    --activation_function swish     --architecture model_1 \ 
+    --attention_fn dot_product      --batch_size 100 \
+    --block_norm layer_pre          --dim_hidden 160 \
+    --kernel_dim 16                 --kernel_type mlp \
+    --kill_if_poor False            --learning_rate 0.001 \
+    --lr_schedule cosine_annealing  --model_seed 0 \
+    --n_systems 150000              --n_train 3000 \
+    --num_heads 8                   --num_layers 5 \
+    --num_particles 6               --run_name test_run \
+    --save_check_points 500         --train_epochs 200
 ```
 
 #### Results

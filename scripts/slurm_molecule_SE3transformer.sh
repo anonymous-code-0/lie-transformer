@@ -29,7 +29,10 @@ kernel_dim=6
 lr_schedule="cosine"
 lr_floor=0
 warmup_length=0.01
-task='homo'
+
+task=${tasks[$SLURM_ARRAY_TASK_ID]}
+
+echo Training task $task
 
 python scripts/train_molecule.py \
     --run_name "all_tasks_width${dim_hidden}_layers${layers}_heads${heads}_kernel${kernel}" \

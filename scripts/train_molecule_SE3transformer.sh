@@ -2,10 +2,24 @@ source venv/bin/activate
 
 tasks=(homo lumo gap alpha mu Cv G H r2 U U0 zpve)
 
+if [ $# == 0 ]
+then
+    task=${tasks[0]}
+elif [ $# == 1 ]
+then
+    task=${tasks[$1]}
+elif [ $# == 2 ]
+then
+    task=${tasks[$1]}
+    export CUDA_VISIBLE_DEVICES=$2
+fi
+
+echo Training task $task on GPU $CUDA_VISIBLE_DEVICES
+
 dataseed=0
 modelseed=0
 kernel=2232
-layers=6
+layers=11
 dim_hidden=1504
 heads=8
 lr=1e-3
@@ -13,7 +27,6 @@ kernel_dim=6
 lr_schedule="cosine"
 lr_floor=0
 warmup_length=0.01
-task=[ if $1 exists, ${tasks[$1]}, else, ${tasks[0]}]
 
 python scripts/train_molecule.py \
     --run_name "limit_norm_test" \

@@ -13,7 +13,7 @@
 
 #SBATCH --array=0-11%6
 
-source XXX/venv_38/bin/activate
+source venv/bin/activate
 
 tasks=(homo lumo gap alpha mu Cv G H r2 U U0 zpve)
 
