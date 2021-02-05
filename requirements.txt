@@ -1,0 +1,11 @@
+torch ==1.6.0
+torchvision ==0.7.0
+tensorboard
+numpy
+attrdict
+simplejson
+future
+deepdish
+tqdm
+einops
+transformers
